@@ -46,3 +46,7 @@ unsigned int dbgu_getchar(void) {
   while ((AT91C_BASE_DBGU->DBGU_CSR & AT91C_US_RXRDY) == 0);
   return AT91C_BASE_DBGU->DBGU_RHR;
 }
+
+void dbgu_tiny_putc(void* p, char c) {
+  dbgu_putchar(c);
+}

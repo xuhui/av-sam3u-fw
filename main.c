@@ -1,5 +1,7 @@
+#include <stdlib.h>
 #include "at91sam3u1.h"
 #include "hw.h"
+#include "printf.h"
 
 void dummy_delay(volatile unsigned int delay) {
   while(delay--);
@@ -25,7 +27,9 @@ int main(void) {
   AT91C_BASE_PIOA->PIO_PER = mask;
 
   dbgu_init(AT91C_US_PAR_NONE, 115200, BOARD_MCK);
-  dbgu_putchar('@');
+  init_printf(NULL, dbgu_tiny_putc);
+
+  tfp_printf("\r\nMCU started.\r\n");
 
   for(;;) {
     AT91C_BASE_PIOA->PIO_SODR = mask;
