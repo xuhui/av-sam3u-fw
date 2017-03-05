@@ -13,3 +13,17 @@ Notes:
   # FTDI USB-Serial
   SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE:="0666"
 * sudo apt-get -o Dpkg::Options::="--force-overwrite" install gdb-arm-none-eabi
+
+Write flash:
+* openocd -f interface/ftdi/mbftdi.cfg -f target/at91sam3u1e.cfg
+* telnet localhost 4444
+  reset init
+  halt
+
+  > flash protect 0 0 7 off
+    cleared protection for sectors 0 through 7 on flash bank 0
+
+  flash write_image erase out/program.bin 0x00080000
+  at91sam3 gpnvm set 1 - boot form flash
+  at91sam3 gpnvm clear 1 - boot from rom
+
