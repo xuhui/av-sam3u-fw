@@ -13,7 +13,6 @@ SRC += main.c
 OBJECTS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(SRC))))
 
 ELF = $(BUILDDIR)/program.elf
-HEX = $(BUILDDIR)/program.hex
 BIN = $(BUILDDIR)/program.bin
 
 INCLUDES += -I.\
@@ -26,11 +25,10 @@ CFLAGS  = -Os -g -Wall $(INCLUDES) -mcpu=cortex-m3 -mthumb \
 LDFLAGS  = -nostartfiles -T$(LKR_SCRIPT) -Os -g -Wall \
    -mcpu=cortex-m3 -mthumb
 
+LDLIBS =
+
 $(BIN): $(ELF)
 	$(CP) -O binary $< $@
-
-$(HEX): $(ELF)
-	$(CP) -O ihex $< $@
 
 $(ELF): $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LDLIBS)
