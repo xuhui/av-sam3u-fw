@@ -19,7 +19,8 @@ INCLUDES += -I.\
 
 LKR_SCRIPT = sam3u1-sram.lds
 
-CFLAGS  = -Os -g -Wall $(INCLUDES) -mcpu=cortex-m3 -mthumb
+CFLAGS  = -Os -g -Wall $(INCLUDES) -mcpu=cortex-m3 -mthumb \
+   -DBOARD_MCK=48000000
 
 LDFLAGS  = -nostartfiles -T$(LKR_SCRIPT) -Os -g -Wall \
    -mcpu=cortex-m3 -mthumb

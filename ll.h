@@ -1,6 +1,32 @@
 #ifndef LL_H
 #define LL_H
 
-void LowLevelInit(void);
+#define CLOCK_TIMEOUT 0xFFFFFFFF
+
+#define AT91C_CKGR_MUL_SHIFT 16
+#define AT91C_CKGR_OUT_SHIFT 14
+#define AT91C_CKGR_PLLCOUNT_SHIFT 8
+#define AT91C_CKGR_DIV_SHIFT 0
+
+#if (BOARD_MCK == 48000000)
+// Settings at 48/48MHz
+#define BOARD_OSCOUNT (AT91C_CKGR_MOSCXTST & (0x8 << 8))
+
+#define BOARD_PLLR ((1 << 29) | (0x7 << AT91C_CKGR_MUL_SHIFT) \
+        | (0x0 << AT91C_CKGR_OUT_SHIFT) |(0x1 << AT91C_CKGR_PLLCOUNT_SHIFT) \
+        | (0x1 << AT91C_CKGR_DIV_SHIFT))
+#define BOARD_MCKR ( AT91C_PMC_PRES_CLK_2 | AT91C_PMC_CSS_PLLA_CLK)
+#elif (BOARD_MCK == 96000000)
+// Settings at 96/96MHz
+#define BOARD_OSCOUNT (AT91C_CKGR_MOSCXTST & (0x8 << 8))
+#define BOARD_PLLR ((1 << 29) | (0x7 << AT91C_CKGR_MUL_SHIFT) \
+        | (0x0 << AT91C_CKGR_OUT_SHIFT) |(0x1 << AT91C_CKGR_PLLCOUNT_SHIFT) \
+        | (0x1 << AT91C_CKGR_DIV_SHIFT))
+#define BOARD_MCKR (AT91C_PMC_PRES_CLK | AT91C_PMC_CSS_PLLA_CLK)
+#else
+    #error "No matched BOARD_MCK."
+#endif
+
+void llinit(void);
 
 #endif

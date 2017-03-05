@@ -75,7 +75,7 @@ IntFunc exception_table[] = {
 void ResetException(void) {
     unsigned int *pSrc, *pDest;
 
-    LowLevelInit();
+    llinit();
 
     // Initialize data
     pSrc = &_efixed;
