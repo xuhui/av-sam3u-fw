@@ -27,3 +27,11 @@ Write flash:
   at91sam3 gpnvm set 1 - boot form flash
   at91sam3 gpnvm clear 1 - boot from rom
 
+Switch on LED with assembler:
+ __asm("mov r0, #0x40 << 24 \n \
+        orr r0, #0x0E << 16 \n \
+        orr r0, #0x0C << 8\n \
+        orr r0, #0x30 << 0\n \
+        mov r1, #0x800000; \n \
+        str r1, [r0]");
+
