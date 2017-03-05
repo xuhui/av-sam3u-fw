@@ -7,6 +7,7 @@ BUILDDIR = out
 SRC += startup.c
 SRC += ll.c
 SRC += irqs.c
+SRC += hw.c
 SRC += main.c
 
 OBJECTS = $(addprefix $(BUILDDIR)/, $(addsuffix .o, $(basename $(SRC))))

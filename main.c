@@ -1,4 +1,5 @@
 #include "at91sam3u1.h"
+#include "hw.h"
 
 void dummy_delay(volatile unsigned int delay) {
   while(delay--);
@@ -22,6 +23,9 @@ int main(void) {
   // Configure pin(s) as output(s)
   AT91C_BASE_PIOA->PIO_OER = mask;
   AT91C_BASE_PIOA->PIO_PER = mask;
+
+  dbgu_init(AT91C_US_PAR_NONE, 115200, BOARD_MCK);
+  dbgu_putchar('@');
 
   for(;;) {
     AT91C_BASE_PIOA->PIO_SODR = mask;
