@@ -17,7 +17,7 @@ BIN = $(BUILDDIR)/program.bin
 
 INCLUDES += -I.\
 
-LKR_SCRIPT = sam3u1-sram.ld
+LKR_SCRIPT = sam3u1-flash.ld
 
 CFLAGS  = -Os -g -Wall $(INCLUDES) -mcpu=cortex-m3 -mthumb \
    -DBOARD_MCK=48000000

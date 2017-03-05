@@ -6,15 +6,12 @@ typedef void( *IntFunc )( void );
 
 extern unsigned int _estack;
 
-extern unsigned int _vect_start;
-
-extern unsigned int _sfixed;
-extern unsigned int _sfixed;
-extern unsigned int _efixed;
-extern unsigned int _srelocate;
-extern unsigned int _erelocate;
-extern unsigned int _szero;
-extern unsigned int _ezero;
+extern unsigned int _stext;
+extern unsigned int _etext;
+extern unsigned int _sdata;
+extern unsigned int _edata;
+extern unsigned int _sbss;
+extern unsigned int _ebss;
 
 extern int main(void);
 void ResetException(void);
@@ -73,27 +70,23 @@ IntFunc exception_table[] = {
 };
 
 void ResetException(void) {
-    unsigned int *pSrc, *pDest;
+  unsigned int *p_src, *p_dest;
 
-    llinit();
+  llinit();
 
-    // Initialize data
-    pSrc = &_efixed;
-    pDest = &_srelocate;
-    if (pSrc != pDest) {
-        for(; pDest < &_erelocate;) {
-            *pDest++ = *pSrc++;
-        }
-    }
+  *((unsigned int*)0xE000ED08) = (unsigned int)&_stext;
 
-    // Zero fill bss
-    for(pDest = &_szero; pDest < &_ezero;) {
-        *pDest++ = 0;
-    }
+  p_src  = &_etext;
+  p_dest = &_sdata;
+  while(p_dest < &_edata) {
+    *p_dest++ = *p_src++;
+  }
 
-    pSrc = (unsigned int *)&_sfixed;
+  p_dest = &_sbss;
+  while(p_dest < &_ebss) {
+    *p_dest++ = 0;
+  }
 
-    AT91C_BASE_NVIC->NVIC_VTOFFR = ((unsigned int)(pSrc)) | (0x0 << 7);
-
-    main();
+  main();
 }
+
